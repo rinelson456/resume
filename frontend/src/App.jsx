@@ -5,6 +5,8 @@ export default function App() {
   const [resume, setResume] = useState(null);
   const [jobDescription, setJobDescription] = useState('');
   const [analysis, setAnalysis] = useState(null);
+  const [optimization, setOptimization] = useState(null);
+  const [coverLetter, setCoverLetter] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
@@ -27,7 +29,9 @@ export default function App() {
       const response = await axios.post('http://localhost:5000/analyze', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setAnalysis(response.data);
+      setAnalysis(response.data.analysis);
+      setOptimization(response.data.optimization);
+      setCoverLetter(response.data.coverLetter);
     } catch (error) {
       console.error('Error uploading resume:', error);
       alert('Failed to process resume. Please try again.');
@@ -54,7 +58,19 @@ export default function App() {
         {analysis && (
           <div className="mt-4 p-4 bg-green-100 border border-green-500 rounded">
             <h2 className="font-semibold">Analysis Result:</h2>
-            <p>{analysis.suggestions}</p>
+            <p>{analysis}</p>
+          </div>
+        )}
+        {optimization && (
+          <div className="mt-4 p-4 bg-yellow-100 border border-yellow-500 rounded">
+            <h2 className="font-semibold">Optimization Suggestions:</h2>
+            <p>{optimization}</p>
+          </div>
+        )}
+        {coverLetter && (
+          <div className="mt-4 p-4 bg-blue-100 border border-blue-500 rounded">
+            <h2 className="font-semibold">Generated Cover Letter:</h2>
+            <p>{coverLetter}</p>
           </div>
         )}
       </div>
