@@ -8,6 +8,7 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 5000;
+console.log("API Key Loaded:", process.env.OPENAI_API_KEY ? "Yes" : "No");
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 app.use(cors());
@@ -35,7 +36,7 @@ app.post('/analyze', upload.single('resume'), async (req, res) => {
         ${jobDescription}`;
         
         const analysisResponse = await openai.completions.create({
-            model: 'gpt-4',
+            model: 'gpt-3.5-turbo',
             prompt: analysisPrompt,
             max_tokens: 300
         });
