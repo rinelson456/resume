@@ -1,68 +1,105 @@
 :root {
+  /* Set global font and layout smoothing for better readability */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
+  /* Enables light/dark mode adaptation */
   color-scheme: light dark;
+
+  /* Default text and background colors (dark mode) */
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
+  /* Improve font rendering */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 a {
+  /* Style for links */
   font-weight: 500;
   color: #646cff;
-  text-decoration: inherit;
+  text-decoration: inherit; /* Removes underline */
 }
+
 a:hover {
+  /* Link color on hover */
   color: #535bf2;
 }
 
 body {
+  /* Remove default margin and center content vertically/horizontally */
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  place-items: center; /* Centers children vertically in flexbox */
+  min-width: 320px;     /* Ensures the app is usable on small screens */
+  min-height: 100vh;    /* Full screen height */
+  text-align: center;
+
+  /* Padding to push content inward (manually adjusted) */
+  padding-left: 40%;
+  padding-right: 33%;
+  background-color: #ffffff8a;
 }
 
 h1 {
+  /* Large header size */
   font-size: 3.2em;
   line-height: 1.1;
 }
 
 button {
+  /* Basic button style */
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #131212;
+  color: #213547;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s; /* Smooth border transition on hover */
 }
+
 button:hover {
+  /* Border color when hovered */
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
+  /* Accessibility styles for keyboard navigation */
   outline: 4px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
+    /* Light mode overrides */
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
+    /* Lighter link hover for light mode */
     color: #747bff;
   }
+
   button {
+    /* Button background for light mode */
     background-color: #f9f9f9;
   }
+}
+
+.stripe {
+  /* Custom spacing class, likely for Stripe UI block */
+  padding-top: 100px;
+}
+
+.analyze{
+  padding-top: 10px;
 }
