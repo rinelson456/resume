@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import axios from 'axios';
+//import html2pdf from 'html2pdf.js';
 
 export default function App() {
   const [resume, setResume] = useState(null);
@@ -8,6 +9,9 @@ export default function App() {
   const [optimization, setOptimization] = useState(null);
   const [coverLetter, setCoverLetter] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [uploadedResumes, setUploadedResumes] = useState([]);
+
+  const reportRef = useRef();
 
   const handleFileChange = (e) => {
     setResume(e.target.files[0]);
@@ -29,14 +33,35 @@ export default function App() {
       const response = await axios.post('http://localhost:5000/analyze', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setAnalysis(response.data.analysis);
-      setOptimization(response.data.optimization);
-      setCoverLetter(response.data.coverLetter);
+      const { analysis, optimization, coverLetter } = response.data;
+      setAnalysis(analysis);
+      setOptimization(optimization);
+      setCoverLetter(coverLetter);
+
+      // Save uploaded resume in dashboard state
+      setUploadedResumes(prev => [...prev, { name: resume.name, analysis, optimization, coverLetter }]);
     } catch (error) {
       console.error('Error uploading resume:', error);
       alert('Failed to process resume. Please try again.');
     }
     setLoading(false);
+  };
+
+  const handleExport = () => {
+    const element = reportRef.current;
+    const opt = {
+      margin:       1,
+      filename:     'resume_analysis.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    window.html2pdf().set(opt).from(element).save();
+  };
+
+  const handleStripeCheckout = async () => {
+    // Replace this with actual Stripe checkout call
+    alert('Redirecting to Stripe Checkout...');
   };
 
   return (
@@ -55,22 +80,54 @@ export default function App() {
             {loading ? 'Processing...' : 'Analyze Resume'}
           </button>
         </form>
-        {analysis && (
-          <div className="mt-4 p-4 bg-green-100 border border-green-500 rounded">
-            <h2 className="font-semibold">Analysis Result:</h2>
-            <p>{analysis}</p>
+
+        <button
+          onClick={handleStripeCheckout}
+          className="mt-4 w-full bg-purple-500 text-white p-2 rounded hover:bg-purple-600"
+        >
+          Upgrade with Stripe
+        </button>
+
+        {(analysis || optimization || coverLetter) && (
+          <div className="mt-4 p-4 bg-gray-100 border border-gray-400 rounded" ref={reportRef}>
+            {analysis && (
+              <div className="mb-2">
+                <h2 className="font-semibold">Analysis Result:</h2>
+                <p>{analysis}</p>
+              </div>
+            )}
+            {optimization && (
+              <div className="mb-2">
+                <h2 className="font-semibold">Optimization Suggestions:</h2>
+                <p>{optimization}</p>
+              </div>
+            )}
+            {coverLetter && (
+              <div>
+                <h2 className="font-semibold">Generated Cover Letter:</h2>
+                <p>{coverLetter}</p>
+              </div>
+            )}
+            <button
+              onClick={handleExport}
+              className="mt-4 w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+            >
+              Export as PDF
+            </button>
           </div>
         )}
-        {optimization && (
-          <div className="mt-4 p-4 bg-yellow-100 border border-yellow-500 rounded">
-            <h2 className="font-semibold">Optimization Suggestions:</h2>
-            <p>{optimization}</p>
-          </div>
-        )}
-        {coverLetter && (
-          <div className="mt-4 p-4 bg-blue-100 border border-blue-500 rounded">
-            <h2 className="font-semibold">Generated Cover Letter:</h2>
-            <p>{coverLetter}</p>
+
+        {uploadedResumes.length > 0 && (
+          <div className="mt-6">
+            <h2 className="text-lg font-bold mb-2">Your Uploaded Resumes</h2>
+            <ul className="space-y-2">
+              {uploadedResumes.map((item, index) => (
+                <li key={index} className="p-2 border rounded bg-white">
+                  <p className="font-semibold">{item.name}</p>
+                  <p className="text-sm text-gray-600">Analysis: {item.analysis.slice(0, 100)}...</p>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
