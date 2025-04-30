@@ -1,105 +1,149 @@
 :root {
-  /* Set global font and layout smoothing for better readability */
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
-
-  /* Enables light/dark mode adaptation */
   color-scheme: light dark;
-
-  /* Default text and background colors (dark mode) */
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  /* Improve font rendering */
+  color: rgba(33, 37, 51, 0.9);
+  background-color: #f4f5f7;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-a {
-  /* Style for links */
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit; /* Removes underline */
-}
-
-a:hover {
-  /* Link color on hover */
-  color: #535bf2;
-}
-
 body {
-  /* Remove default margin and center content vertically/horizontally */
   margin: 0;
   display: flex;
-  place-items: center; /* Centers children vertically in flexbox */
-  min-width: 320px;     /* Ensures the app is usable on small screens */
-  min-height: 100vh;    /* Full screen height */
-  text-align: center;
-
-  /* Padding to push content inward (manually adjusted) */
-  padding-left: 40%;
-  padding-right: 33%;
-  background-color: #ffffff8a;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1.5rem; /* 👈 added horizontal padding */
+  min-height: 100vh;
+  background-color: #f9fafb;
 }
 
 h1 {
-  /* Large header size */
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+a {
+  font-weight: 500;
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1d4ed8;
 }
 
 button {
-  /* Basic button style */
-  border-radius: 8px;
-  border: 1px solid transparent;
+  background-color: #3b82f6;
+  color: white;
   padding: 0.6em 1.2em;
-  font-size: 1em;
+  font-size: 1rem;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #131212;
-  color: #213547;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: border-color 0.25s; /* Smooth border transition on hover */
+  transition: background-color 0.25s ease;
 }
 
 button:hover {
-  /* Border color when hovered */
-  border-color: #646cff;
+  background-color: #2563eb;
 }
 
 button:focus,
 button:focus-visible {
-  /* Accessibility styles for keyboard navigation */
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    /* Light mode overrides */
-    color: #213547;
-    background-color: #ffffff;
+.card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  max-width: 720px;
+  width: 100%;
+}
+
+input,
+textarea,
+.ql-container {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: white;
+  color: #111827;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 150px;
+  max-height: 300px;       /* 👈 same height control as quill */
+  overflow-y: auto;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  width: 100%;
+  color: #111827;
+}
+
+.ql-container {
+  min-height: 150px;
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
   }
 
-  a:hover {
-    /* Lighter link hover for light mode */
-    color: #747bff;
+  h1 {
+    font-size: 2rem;
   }
 
-  button {
-    /* Button background for light mode */
-    background-color: #f9f9f9;
+  .card {
+    padding: 1.5rem;
   }
+}
+
+.analyze {
+  padding-top: 1rem;
 }
 
 .stripe {
-  /* Custom spacing class, likely for Stripe UI block */
-  padding-top: 100px;
+  padding-top: 4rem;
 }
 
-.analyze{
-  padding-top: 10px;
+.input-grid {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.input-card {
+  flex: 1;
+  min-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .input-grid {
+    flex-direction: column;
+  }
+}
+
+.ql-container {
+  min-height: 150px;
+  max-height: 300px;       /* 👈 limits height */
+  overflow-y: auto;        /* 👈 makes it scroll when too tall */
+  border-radius: 0.5rem;
 }
